@@ -32,7 +32,7 @@ ylabel('Flanker spacing (deg)')
 xlabel({'Tested letter';'Trial number'})
 xlabel({'Trial number'})
 
-set(gca,'Fontsize',20)
+set(gca,'Fontsize',15)
 title(sprintf('Example of Quest staircase at 2.5 %s',char(176)))
 
 

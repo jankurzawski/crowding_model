@@ -128,7 +128,7 @@ leg2 = legend;
 leg2.String= {sprintf('2.5%s',char(176));sprintf('5%s',char(176));sprintf('10%s',char(176))};
 leg2.Location = 'southWest';
 title('Bouma factor vs. meridian');
-set(gca, 'FontSize', 25);
+set(gca,'Fontsize',15)
 
 title(leg2,'Radial eccentricity','fontsize',15);
 %%

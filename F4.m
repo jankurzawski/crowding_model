@@ -92,7 +92,7 @@ line([0 0], ylim(), 'LineWidth', 2, 'Color',[0.5 0.5 0.5],'LineStyle','--');
 
 xlabel('Horizontal Bouma factor ')
 ylabel('Vertical Bouma factor ')
-set(gca,'Fontsize',25)
+set(gca,'Fontsize',15)
 title('Polar plot of Bouma factor')
 grid on
 set(gcf,'Position',[ 881   385   560   420])
