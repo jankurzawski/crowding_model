@@ -91,7 +91,6 @@ P(:)  = pval_lr;
 
 t = text(3,0.32,sprintf('p=%.2f',(P(1,1))),'HorizontalAlignment', 'center', ...
     'VerticalAlignment', 'middle','FontSize',15,'Color',[0 0 0]);
-pval2stars(P(1,1));
 
 ylim([0.1 0.35]);
 
