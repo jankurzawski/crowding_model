@@ -16,7 +16,7 @@ crowding_5_deg = nanmean([crowding.Ecc5_0__0_0;crowding.Eccm5_0__0_0]);
 acuity_5_deg = nanmean([acuity.Ecc5_0__0_0;acuity.Eccm5_0__0_0]);
 
 % subplot(3,1,1)
-myplot = plot((crowding_5_deg),(acuity_5_deg),'.','MarkerSize',20,'Color',cmap(1,:));
+myplot = plot((crowding_5_deg),(acuity_5_deg),'.','MarkerSize',20,'Color',cmap(1,:)); hold on
 set(gca,'xscale','log','yscale','log')
 
 ylabel('Acuity (deg)')
@@ -49,6 +49,7 @@ box off
 set(gca,'Fontsize',15)
 % ylim([0.1 2])
 xlabel('Crowding (deg)')
+plot(xlim,xlim,'--','Color',[0 0 0 0.8])
 
 %%
 subplot(1,3,2)
@@ -64,6 +65,7 @@ acuity_5_deg = nanmean([acuity.Ecc5_0__0_0;acuity.Eccm5_0__0_0]);
 
 % subplot(3,1,2)
 myplot = plot(crowding_5_deg,acuity_5_deg,'.','MarkerSize',20,'Color',cmap(1,:))
+hold on
 set(gca,'xscale','log','yscale','log')
 
 ylabel('Acuity (deg)')
@@ -96,6 +98,7 @@ box off
 % ylim([0.1 2])
 set(gca,'Fontsize',15)
 xlabel('Crowding (deg)')
+plot(xlim,xlim,'--','Color',[0 0 0 0.8])
 
 %%
 subplot(1,3,3)
@@ -112,6 +115,7 @@ acuity_5_deg = [acuity.Ecc0_0__0_0];
 
 % subplot(3,1,3)
 myplot = plot(crowding_5_deg,acuity_5_deg,'.','MarkerSize',20,'Color',cmap(2,:))
+hold on
 set(gca,'xscale','log','yscale','log')
 
 
@@ -140,3 +144,4 @@ axis square
 box off
 % ylim([0.1 2])
 set(gca,'Fontsize',15)
+plot(xlim,xlim,'--','Color',[0 0 0 0.8])

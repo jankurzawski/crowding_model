@@ -3,6 +3,7 @@
 load ./data/bouma
 clear newdata
 
+field = fieldnames(bouma)
 ccmap(1,:) = round([143 208 142]/255,2);   %// color first row - red
 ccmap(2,:) = round([159 202 223]/255,2);   %// color 25th row - green
 ccmap(3,:) = round([253 192 140]/255,2);
