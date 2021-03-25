@@ -7,7 +7,7 @@ cccmap(3,:) = round([142 115 132]/255,2);
 
 addpath(genpath('utils'));
 load ./data/bouma
-
+field = fieldnames(bouma);
 
 
 leg = {'upper ';'right';'lower';'left'};
