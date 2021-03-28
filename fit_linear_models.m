@@ -22,11 +22,6 @@ else
 end
 
 
-reproducibility_of_VF = 1;
-
-% if true it loads the random sequence for cross validation this is mostly 
-% done for reproducbiilty 
-
 % assign variables
 crowding_dist = tbl.crowding_dist;
 pa = tbl.polar_angle;
