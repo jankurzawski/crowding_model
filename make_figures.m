@@ -30,5 +30,9 @@ F6
 set(gcf,'Position',[1190         549         934         640])
 movegui(gca,'center');
 
+F7
+set(gcf,'Position',[1190         549         934         640])
+movegui(gca,'center');
+
 
 tilefigs

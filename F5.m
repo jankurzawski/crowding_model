@@ -1,7 +1,7 @@
 figure(5)
 subplot(1,2,1)
 
-
+load ./data/data
 
 x = [data.Eccm2_5__0_0   data.Eccm5_0__0_0 data.Eccm10_0__0_0];
 y = [data.Ecc2_5__0_0   data.Ecc5_0__0_0 data.Ecc10_0__0_0];
@@ -97,7 +97,7 @@ figg = gca;
 findN = strfind(figg.Title.String,'N')
 % findp = strfind(figg.Title.String,'p')
 
-figg.Title.String = cat(2,' {\it R}',figg.Title.String(2:findN-2) ,'{\it, N}', figg.Title.String(findN+1:end))
+figg.Title.String = cat(2,' {\it R}',figg.Title.String(2:findN-2))
 xticks([0.1 1])
 %%
 subplot(1,2,2)
@@ -195,7 +195,32 @@ plot(xlim,xlim,'--','Color',[0 0 0 0.8])
 set(gca,'Fontsize',15)
 ylim([xlim])
 figg = gca;
-figg.Title.String = cat(2,' {\it R}',figg.Title.String(2:findN-2) ,'{\it, N}', figg.Title.String(findN+1:end))
+figg.Title.String = cat(2,' {\it R}',figg.Title.String(2:findN-2))
 
-
+sgtitle('Crowding along two meridians','FontWeight','bold','FontSize',15)
 set(gcf,'Position',[560   480   796   468])
+
+% 
+legend box off
+
+[leg2,icons] = legend({sprintf('2.5%s',char(176));sprintf('5%s',char(176));sprintf('10%s',char(176))})
+leg2.Location = 'southEast';
+% title(leg2,'Radial eccentricity','fontsize',15);
+
+% icons = findobj(icons,'Type','Group');
+icons(4).Children.MarkerSize = 20
+icons(5).Children.MarkerSize = 20
+icons(6).Children.MarkerSize = 20
+% legend box off
+
+% icons = findobj(icons,'Type','Group');
+% Find lines that use a marker
+% icons = findobj(icons,'Marker','none','-xor');
+% Resize the marker in the legend
+% set(icons,'MarkerSize',20);
+% legend box off
+% leg2.Title.String= 'sadssa'
+% leg
+leg2.Box = 'off'
+
+

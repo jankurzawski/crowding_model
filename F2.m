@@ -143,12 +143,25 @@ mygeomean = geomean(bigmean);
 t = table((round(mygeomean(1),2)),(round(mygeomean(2),2)),(round(mygeomean(3),2)),(round(mygeomean(4),2)));
 t.Properties.VariableNames = leg;
 
-
+disp('For Sloan')
 disp(t)
 
 
-fprintf('Ratio R/L = %.2f \n',t.right/t.left)
-fprintf('Ratio D/U = %.2f \n',t.lower/t.upper)
+fprintf('\nRatio R/L = %.2f \n',t.right/t.left)
+fprintf('Ratio D/U = %.2f \n\n',t.lower/t.upper)
 fprintf('Bouma factor averaged across meridians = %.2f \n',geomean([t.right t.upper t.left t.lower]))
+
+
+observers = nanmean([bouma_u;bouma_d;bouma_r;bouma_l]);
+fprintf('STD of log Bouma averaged across meridians = %.2f \n',nanstd(log10(observers)))
+
+
+load ./data/data_p
+
+disp('For Pelli')
+t = table(round(nanmean(data.Ecc5_0__0_0/5),2),round(nanmean(data.Eccm5_0__0_0/5),2));
+t.Properties.VariableNames = [leg(2);leg(4)];
+disp(t)
+fprintf('\nRatio R/L = %.2f \n',t.right/t.left)
 
 
