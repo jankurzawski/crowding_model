@@ -3,7 +3,7 @@ clc
 clear
 close all
 
-load ./tbl_whole_field
+load ./data/tbl_whole_field
 
 crowding_dist = (tbl.crowding_dist);
 pa = tbl.polar_angle;
@@ -96,7 +96,7 @@ ypred_big = zeros(size(crowding_dist));
 
 
 % load cross-validation scrambling for reproducibility
-load VF_nonlin
+load ./data/VF_nonlin
 
 VF_unique = unique(VF);
 
