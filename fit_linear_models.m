@@ -2,7 +2,7 @@ clc
 clear
 close all
 %%
-load tbl_whole_field_eyelink_flank
+load ./data/tbl_whole_field_eyelink_flank
 
 sel = tbl.eccentricity == 0
 tbl(sel,:) = []
@@ -139,7 +139,7 @@ ypred_big = zeros(size(crowding_dist));
 
 % save('prtAlin','prtA')
 
-load prtAlin
+load ./data/prtAlin
 for rep = 1 : length(prtA)-1
     
     
