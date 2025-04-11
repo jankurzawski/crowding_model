@@ -2,25 +2,16 @@ clc
 clear
 close all
 %%
+load tbl_whole_field_eyelink_flank
 
+sel = tbl.eccentricity == 0
+tbl(sel,:) = []
+%%
 % choose model
-model = 'm9';
-
-
-% pick data
-
-sloan_only = 1;
-
-if sloan_only
+ct2 = 1;
+for m = [3 7 8 9 10]
     
-    load ./data/tbl_sloan % data for sloan in the periphery
-    
-else
-    
-    load ./data/tbl_sloan_pelli % data for sloan and pelli in the periphery
-    
-end
-
+model = sprintf('m%i',m);
 
 % assign variables
 crowding_dist = tbl.crowding_dist;
@@ -28,6 +19,7 @@ pa = tbl.polar_angle;
 subj = tbl.subjects;
 eccentricity = tbl.eccentricity;
 font = tbl.font;
+flank = tbl.flanking;
 
 % find length of predictors and data
 nsubj = length(unique(subj));
@@ -35,11 +27,13 @@ necc = length(unique(eccentricity));
 npa = length(unique(pa));
 ndata = length(crowding_dist);
 nfont = length(unique(font));
+nflank = length(unique(flank));
 
 % initialize preidctors
 meridian = zeros(npa,ndata)';
 subjects = zeros(nsubj,ndata)';
 fonts = zeros(nfont,ndata)';
+flankers = zeros(nflank,ndata)';
 
 
 % build meridian predictor
@@ -67,26 +61,31 @@ for s = 1 : nfont
     
 end
 
-
-ct = 1;
-
-for p = 1:4
+for m = 1 : nflank
     
-    for s = 1 : nsubj
-        
-        tmp = pa == p & subj == s;
-        bouma_mer_subj(tmp,ct) = 1;
-        ct = ct +1;
-    end
+    flankers(uint8(flank)==m,m) = 1;
     
 end
+    
+ct = 1;
+
+% for p = 1:4
+%     
+%     for s = 1 : nsubj
+%         
+%         tmp = pa == p & subj == s;
+%         bouma_mer_subj(tmp,ct) = 1;
+%         ct = ct +1;
+%     end
+%     
+% end
 
 
 uE = unique(eccentricity);
-ct = 1;
+% ct = 1;
 
 
-
+%%
 
 switch model
     
@@ -100,18 +99,18 @@ switch model
         
     case 'm8'
         
-        X = cat(2,ones(size(meridian,1),1),meridian,subjects);
+        X = cat(2,ones(size(meridian,1),1),meridian,flankers);
         
         
     case 'm9'
         
-        X = cat(2,ones(size(meridian,1),1),meridian,subjects,font);
+        X = cat(2,ones(size(meridian,1),1),meridian,flankers,font);
         
-   
         
-  
+    case 'm10'
+        
+        X = cat(2,ones(size(meridian,1),1),meridian,subjects,flankers,font,subjects);
 
-        
 end
 
 
@@ -120,25 +119,37 @@ end
 %%
 % initilize a variable to grab predictions in the for loop
 ypred_big = zeros(size(crowding_dist));
+% 
+% 
+% 
+% VF = repelem([[1:length(crowding_dist)/nsubj]],nsubj);
+% 
+% VF = VF(randperm(numel(VF)));
+% 
+% VF_unique = unique(VF);
+% 
+% for v = 1 : length(VF_unique)
+%     
+%     ind = VF == VF_unique(v);
+%     VF_factor(ind) = v;
+%     
+% end
+% 
+% [idxo,prtA]=randDivide([1:size(tbl,1)]',5);
 
+% save('prtAlin','prtA')
 
-
-load ./data/VF
+load prtAlin
+for rep = 1 : length(prtA)-1
     
-
-
-
-VF_unique = unique(VF);
-
-
-for rep = VF_unique
+    
+    vec = prtA{rep};
     
     
-    vec = VF == rep;
     
     %% choose data for testing and training
     permvector = zeros(size(crowding_dist));
-    permvector(logical(vec)) = 1;
+    permvector(vec) = 1;
     
     train = logical(abs(permvector-1));
     test = logical(permvector);
@@ -146,14 +157,9 @@ for rep = VF_unique
     
     
     % Setup training dataset
-    X_train = X(train,:);    
+    X_train = X(train,:);
     y_train = log10(crowding_dist(train)) - log10(eccentricity(train));
     
-    
-    % remove nans, otherwise the model is not solved
-    bad = isnan(y_train);
-    y_train(bad) = [];
-    X_train(bad,:) = [];
     
     h = X_train\y_train;
     
@@ -168,20 +174,43 @@ for rep = VF_unique
     % inside the ypred_big variable
     ypred_big(test) = ypred_test;
     
-    
-    
+%     
+%     subplot(4,3,rep)
+%     rep
+%     imagesc(test)
 end
 
 %%
 
 % data
-bad = isnan(crowding_dist);
-crowding_dist(bad) = [];
-ypred_big(bad) = [];
+% bad = isnan(crowding_dist);
+% crowding_dist(bad) = [];
+% ypred_big(bad) = [];
 
 
 data_test = log10(crowding_dist);
 R2 = 1 - sum((ypred_big - data_test).^2)./sum((data_test - mean(data_test)).^2);
+R_pears(ct2) = corr(ypred_big,data_test)
 disp(R2)
+bigR2(ct2) = R2
+ct2 = ct2 + 1
 
+end
+function [idxo,prtA]=randDivide(M,K)
+[n,~]=size(M);
+np=(n-rem(n,K))/K;
+[~,idx]=sort(rand(n,1));
+C=M(idx,:);
+i=1;
+j=1;
+prtA={};
+idxo={};
 
+while i<n-mod(n,K)
+    prtA{j}=C(i:i+np-1,:);
+    idxo{i}=idx(i:i+np-1,1);
+    i=i+np;
+    j=j+1;
+end
+prtA{j}=C(i:n,:);
+end
